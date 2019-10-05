@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
 import Axios from 'axios'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
-interface Marker {}
+interface IMarker {
+  id: any
+  latitude: any
+  longitude: any
+}
 
 interface MyProps {}
 
 interface MyState {
-  markers: object[]
+  markers: IMarker[]
   isMapReady: Boolean
+  addMarker: IMarker | null
 }
 
 class HomePage extends Component<MyProps, MyState> {
@@ -17,14 +22,8 @@ class HomePage extends Component<MyProps, MyState> {
     super(props)
     this.state = {
       isMapReady: false,
-      markers: [
-        // {
-        //   title: 'something 1',
-        //   latitude: 27.87094,
-        //   longitude: -82.76351,
-        //   id: 1
-        // }
-      ]
+      addMarker: null,
+      markers: []
     }
   }
   onMapLayout = () => {
@@ -32,11 +31,33 @@ class HomePage extends Component<MyProps, MyState> {
   }
 
   fetchPotholes = async () => {
-    const resp = await Axios.get('https://localhost:5001/api/Pothole')
-    this.setState({
-      markers: resp.data
+    const url = 'http://10.0.2.2:5000/api/Pothole'
+    console.log('wow', url)
+    Axios.get(url)
+      .then(resp => {
+        this.setState({
+          markers: resp.data
+        })
+      })
+      .catch(ex => console.log('error', { ex }))
+  }
+
+  addPotholes = async () => {
+    const url = 'http://10.0.2.2:500/api/Pothole'
+    const resp = await Axios.post(url, {
+      latitude: this.state.addMarker.latitude,
+      longitude: this.state.addMarker.longitude
     })
-    console.log('wow')
+  }
+
+  onMapPress = e => {
+    this.setState({
+      addMarker: {
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
+        id: 0
+      }
+    })
   }
 
   componentDidMount() {
@@ -46,14 +67,16 @@ class HomePage extends Component<MyProps, MyState> {
   render() {
     return (
       <View>
-        <Text>Wow</Text>
         <MapView
           style={this.styles.map}
           initialRegion={{
             latitude: 27.78825,
-            longitude: -82.4324,
+            longitude: -82.6324,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
+          }}
+          onPress={e => {
+            this.onMapPress()
           }}
         >
           {this.state.markers.map(marker => (
@@ -63,11 +86,11 @@ class HomePage extends Component<MyProps, MyState> {
                 latitude: marker.latitude,
                 longitude: marker.longitude
               }}
-            >
-              <Text>11</Text>
-            </Marker>
+              pinColor="red"
+            ></Marker>
           ))}
         </MapView>
+        <View></View>
       </View>
     )
   }
@@ -82,8 +105,8 @@ class HomePage extends Component<MyProps, MyState> {
       paddingVertical: 40
     },
     map: {
-      width: 250,
-      height: 250
+      width: 400,
+      height: 400
     }
   })
 }

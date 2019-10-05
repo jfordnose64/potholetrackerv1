@@ -5,7 +5,7 @@ import StaticMap from './Components/StaticMap'
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Text style={styles.header}>Pothole Tracker!</Text>
       <StaticMap />
     </View>
   )
@@ -17,5 +17,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    margin: 20
   }
 })
