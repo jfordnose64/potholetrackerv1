@@ -7,7 +7,8 @@ class UserLocation extends Component {
     userLocation: {
       lat: 34.2333,
       long: 34.545
-    }
+    },
+    address: '123'
   }
 
   addMarkerOnUserLocation = async () => {
@@ -19,8 +20,18 @@ class UserLocation extends Component {
     console.log('worked')
   }
 
+  convertLatLong = async () => {
+    const url =
+      'https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyCqif8ZjnUKRfHM9S36U5ZnzkCDqbpVzFI'
+    const resp = await Axios.get(url)
+    this.setState({
+      address: resp.data.result
+    })
+  }
+
   componentDidMount() {
     this.setLocationState()
+    this.convertLatLong()
     console.log(this.state.userLocation.lat)
   }
 
@@ -38,7 +49,7 @@ class UserLocation extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text style={styles.header}>Your Location</Text>
         <View style={styles.coordinateCont}>
           <Text style={styles.coordinates}>
@@ -47,6 +58,7 @@ class UserLocation extends Component {
           <Text style={styles.coordinates}>
             Longitude: {this.state.userLocation.long}
           </Text>
+          <Text style={styles.coordinates}>Address: {this.state.address}</Text>
         </View>
         <Button
           // onPress={() => this.addMarkerOnUserLocation()}
@@ -66,11 +78,20 @@ const styles = StyleSheet.create({
   },
   coordinates: {
     fontSize: 15,
-    fontWeight: '400'
+    fontWeight: '400',
+    paddingTop: 10,
+    paddingBottom: 10
   },
   coordinateCont: {
     marginTop: 10,
     marginBottom: 10
+  },
+  container: {
+    backgroundColor: '#e9e7e7',
+    padding: 15,
+    borderRadius: 7,
+    width: 350,
+    alignItems: 'center'
   }
 })
 

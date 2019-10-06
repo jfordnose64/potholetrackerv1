@@ -15,6 +15,8 @@ interface MyState {
   markers: IMarker[]
   isMapReady: Boolean
   addMarker: IMarker | null
+  markerDraggable: IMarker[]
+  showMarker: Boolean
 }
 
 class HomePage extends Component<MyProps, MyState> {
@@ -23,7 +25,9 @@ class HomePage extends Component<MyProps, MyState> {
     this.state = {
       isMapReady: false,
       addMarker: null,
-      markers: []
+      markers: [],
+      markerDraggable: [],
+      showMarker: false
     }
   }
   onMapLayout = () => {
@@ -52,6 +56,7 @@ class HomePage extends Component<MyProps, MyState> {
 
   onMapPress = e => {
     this.setState({
+      showMarker: true,
       addMarker: {
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
@@ -75,6 +80,8 @@ class HomePage extends Component<MyProps, MyState> {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }}
+          // Fix Me!!! e.nativeEvent undefined is not an object
+          // onPress={this.onMapPress()}
         >
           {this.state.markers.map(marker => (
             <Marker
@@ -94,6 +101,14 @@ class HomePage extends Component<MyProps, MyState> {
               </Callout>
             </Marker>
           ))}
+          {this.state.showMarker == true ? (
+            <Marker
+              coordinate={{
+                latitude: this.state.addMarker.latitude,
+                longitude: this.state.addMarker.longitude
+              }}
+            />
+          ) : null}
         </MapView>
         <View></View>
       </View>
@@ -111,7 +126,10 @@ class HomePage extends Component<MyProps, MyState> {
     },
     map: {
       width: 400,
-      height: 400
+      height: 600,
+      borderRadius: 5,
+      marginTop: 15,
+      marginBottom: 15
     }
   })
 }

@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 30,
     fontWeight: 'bold',
-    margin: 20
+    margin: 20,
+    backgroundColor: '#e9e7e7',
+    width: 425,
+    alignItems: 'center',
+    padding: 15,
+    color: 'black'
   }
 })

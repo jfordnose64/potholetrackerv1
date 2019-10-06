@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native'
 import Axios from 'axios'
 
 const AddNewMarker = () => {
-  const [latitude, setNewLatitude] = useState('')
-  const [longitude, setNewLongitude] = useState('')
+  const [latitude, setNewLatitude] = useState(' ')
+  const [longitude, setNewLongitude] = useState(' ')
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -25,13 +25,13 @@ const AddNewMarker = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Add New Marker</Text>
-      <Text>Latitude</Text>
+      <Text style={styles.lat}>Latitude</Text>
       <TextInput
         style={styles.input}
         onChangeText={e => setNewLatitude(e.target.value)}
         value={latitude}
       />
-      <Text>Longitude</Text>
+      <Text style={styles.long}>Longitude</Text>
       <TextInput
         style={styles.input}
         onChangeText={e => setNewLongitude(e.target.value)}
@@ -47,16 +47,30 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
-    margin: 10
+    margin: 10,
+    width: 200,
+    backgroundColor: 'white'
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    // alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#e9e7e7',
+    marginBottom: 15,
+    marginTop: 15,
+    padding: 15,
+    borderRadius: 7,
+    width: 350,
+    alignItems: 'center'
   },
   header: {
-    fontSize: 30
+    fontSize: 30,
+    fontWeight: 'bold'
+  },
+  lat: {
+    fontSize: 20
+  },
+  long: {
+    fontSize: 20
   }
 })
 
