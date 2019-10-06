@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Axios from 'axios'
 import { StyleSheet, Text, View, Button } from 'react-native'
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps'
 
 interface IMarker {
   id: any
@@ -75,9 +75,6 @@ class HomePage extends Component<MyProps, MyState> {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }}
-          onPress={e => {
-            this.onMapPress()
-          }}
         >
           {this.state.markers.map(marker => (
             <Marker
@@ -87,7 +84,15 @@ class HomePage extends Component<MyProps, MyState> {
                 longitude: marker.longitude
               }}
               pinColor="red"
-            ></Marker>
+              title="Pothole"
+            >
+              <Callout>
+                <View>
+                  <Text>Latitude: {marker.latitude}</Text>
+                  <Text>Longitude: {marker.longitude}</Text>
+                </View>
+              </Callout>
+            </Marker>
           ))}
         </MapView>
         <View></View>
