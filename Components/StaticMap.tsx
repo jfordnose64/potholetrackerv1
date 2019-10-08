@@ -46,12 +46,14 @@ class HomePage extends Component<MyProps, MyState> {
       .catch(ex => console.log('error', { ex }))
   }
 
-  addPotholes = async () => {
-    const url = 'http://10.0.2.2:500/api/Pothole'
+  addPotholes = async e => {
+    const url = 'http://10.0.2.2:5000/api/Pothole'
+    console.log('Submitted')
     const resp = await Axios.post(url, {
       latitude: this.state.addMarker.latitude,
       longitude: this.state.addMarker.longitude
     })
+    // console.log(resp.data)
   }
 
   onMapPress = e => {
@@ -81,7 +83,7 @@ class HomePage extends Component<MyProps, MyState> {
             longitudeDelta: 0.0421
           }}
           // Fix Me!!! e.nativeEvent undefined is not an object
-          // onPress={this.onMapPress()}
+          onPress={e => this.onMapPress(e)}
         >
           {this.state.markers.map(marker => (
             <Marker
@@ -107,7 +109,13 @@ class HomePage extends Component<MyProps, MyState> {
                 latitude: this.state.addMarker.latitude,
                 longitude: this.state.addMarker.longitude
               }}
-            />
+            >
+              <Callout onPress={e => this.addPotholes(e)}>
+                <View>
+                  <Button title="Add a thing" />
+                </View>
+              </Callout>
+            </Marker>
           ) : null}
         </MapView>
         <View></View>

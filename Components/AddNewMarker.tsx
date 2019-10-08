@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native'
 import Axios from 'axios'
 
 const AddNewMarker = () => {
-  const [latitude, setNewLatitude] = useState(' ')
-  const [longitude, setNewLongitude] = useState(' ')
+  const [latitude, setNewLatitude] = useState('')
+  const [longitude, setNewLongitude] = useState('')
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -28,16 +28,16 @@ const AddNewMarker = () => {
       <Text style={styles.lat}>Latitude</Text>
       <TextInput
         style={styles.input}
-        onChangeText={e => setNewLatitude(e.target.value)}
+        onChangeText={e => setNewLatitude(e)}
         value={latitude}
       />
       <Text style={styles.long}>Longitude</Text>
       <TextInput
         style={styles.input}
-        onChangeText={e => setNewLongitude(e.target.value)}
+        onChangeText={e => setNewLongitude(e)}
         value={longitude}
       />
-      <Button title="Submit" onPress={() => handleSubmit()} />
+      <Button title="Submit" onPress={e => handleSubmit(e)} />
     </View>
   )
 }

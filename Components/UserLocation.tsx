@@ -11,28 +11,31 @@ class UserLocation extends Component {
     address: '123'
   }
 
-  addMarkerOnUserLocation = async () => {
-    const url = 'http://10.0.2.2:500/api/Pothole'
+  // refreshPage = () => {
+  //   window.location.reload(false)
+  // }
+
+  addMarkerOnUserLocation = async e => {
+    const url = 'http://10.0.2.2:5000/api/Pothole'
     const resp = await Axios.post(url, {
       latitude: this.state.userLocation.lat,
       longitude: this.state.userLocation.long
     })
     console.log('worked')
+    // this.refreshPage()
   }
 
   convertLatLong = async () => {
-    const url =
-      'https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyCqif8ZjnUKRfHM9S36U5ZnzkCDqbpVzFI'
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.userLocation.lat},${this.state.userLocation.long}&key=AIzaSyCqif8ZjnUKRfHM9S36U5ZnzkCDqbpVzFI`
     const resp = await Axios.get(url)
     this.setState({
-      address: resp.data.result
+      address: resp.data.results[2].formatted_address
     })
+    console.log('wow')
   }
 
   componentDidMount() {
     this.setLocationState()
-    this.convertLatLong()
-    console.log(this.state.userLocation.lat)
   }
 
   setLocationState = () => {
@@ -44,6 +47,7 @@ class UserLocation extends Component {
       this.setState({
         userLocation: setUserLocation
       })
+      this.convertLatLong()
     })
   }
 
@@ -61,7 +65,7 @@ class UserLocation extends Component {
           <Text style={styles.coordinates}>Address: {this.state.address}</Text>
         </View>
         <Button
-          // onPress={() => this.addMarkerOnUserLocation()}
+          onPress={e => this.addMarkerOnUserLocation(e)}
           title="Add Marker on your location"
         />
       </View>

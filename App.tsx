@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import StaticMap from './Components/StaticMap'
 import AddNewMarker from './Components/AddNewMarker'
 import UserLocation from './Components/UserLocation'
+import Sensors from './Components/Sensors'
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <StaticMap />
         <UserLocation />
         <AddNewMarker />
+        {/* <Sensors /> */}
       </View>
     </ScrollView>
   )
