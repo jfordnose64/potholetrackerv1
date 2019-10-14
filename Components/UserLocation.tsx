@@ -67,6 +67,7 @@ class UserLocation extends Component {
         <Button
           onPress={e => this.addMarkerOnUserLocation(e)}
           title="Add Marker on your location"
+          color="#ca3e47"
         />
       </View>
     )
@@ -75,27 +76,31 @@ class UserLocation extends Component {
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
     marginTop: 5,
     marginBottom: 5
   },
   coordinates: {
-    fontSize: 15,
+    fontSize: 17.5,
     fontWeight: '400',
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    textAlign: 'center'
   },
   coordinateCont: {
     marginTop: 10,
     marginBottom: 10
   },
   container: {
-    backgroundColor: '#e9e7e7',
-    padding: 15,
-    borderRadius: 7,
-    width: 350,
-    alignItems: 'center'
+    backgroundColor: '#525252',
+    padding: 20,
+    borderRadius: 20,
+    alignItems: 'center',
+    margin: 20,
+    shadowOffset: { width: 20, height: 20 },
+    shadowColor: 'pink',
+    shadowOpacity: 1.0
   }
 })
 

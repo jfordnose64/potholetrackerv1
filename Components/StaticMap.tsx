@@ -9,6 +9,11 @@ interface IMarker {
   longitude: any
 }
 
+interface UserMarker {
+  lat: any
+  long: any
+}
+
 interface MyProps {}
 
 interface MyState {
@@ -17,6 +22,7 @@ interface MyState {
   addMarker: IMarker | null
   markerDraggable: IMarker[]
   showMarker: Boolean
+  userLocation: UserMarker
 }
 
 class HomePage extends Component<MyProps, MyState> {
@@ -27,11 +33,28 @@ class HomePage extends Component<MyProps, MyState> {
       addMarker: null,
       markers: [],
       markerDraggable: [],
-      showMarker: false
+      showMarker: false,
+      userLocation: {
+        lat: 34.45,
+        long: 34
+      }
     }
   }
+
   onMapLayout = () => {
     this.setState({ isMapReady: true })
+  }
+
+  setLocationState = () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      let setUserLocation = {
+        lat: position.coords.latitude,
+        long: position.coords.longitude
+      }
+      this.setState({
+        userLocation: setUserLocation
+      })
+    })
   }
 
   fetchPotholes = async () => {
@@ -44,6 +67,7 @@ class HomePage extends Component<MyProps, MyState> {
         })
       })
       .catch(ex => console.log('error', { ex }))
+    this.setLocationState()
   }
 
   addPotholes = async e => {
@@ -77,8 +101,8 @@ class HomePage extends Component<MyProps, MyState> {
         <MapView
           style={this.styles.map}
           initialRegion={{
-            latitude: 27.78825,
-            longitude: -82.6324,
+            latitude: 27.7708,
+            longitude: -82.663,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }}
@@ -112,11 +136,19 @@ class HomePage extends Component<MyProps, MyState> {
             >
               <Callout onPress={e => this.addPotholes(e)}>
                 <View>
-                  <Button title="Add a thing" />
+                  <Button title="Add a New Marker" />
                 </View>
               </Callout>
             </Marker>
           ) : null}
+          <Marker
+            coordinate={{
+              latitude: this.state.userLocation.lat,
+              longitude: this.state.userLocation.long
+            }}
+            pinColor="blue"
+            title="User Location"
+          ></Marker>
         </MapView>
         <View></View>
       </View>
@@ -133,8 +165,8 @@ class HomePage extends Component<MyProps, MyState> {
       paddingVertical: 40
     },
     map: {
-      width: 400,
-      height: 600,
+      width: 415,
+      height: 820,
       borderRadius: 5,
       marginTop: 15,
       marginBottom: 15

@@ -1,24 +1,20 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import StaticMap from './Components/StaticMap'
-import AddNewMarker from './Components/AddNewMarker'
-import UserLocation from './Components/UserLocation'
-import Sensors from './Components/Sensors'
+import { handleNavigationChange } from 'react-navigation-stack'
+import AppNavigator from './Components/AppNavigator'
 
-export default function App() {
-  return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.header}>Pothole Tracker!</Text>
-        <StaticMap />
-        <UserLocation />
-        <AddNewMarker />
-        {/* <Sensors /> */}
-      </View>
-    </ScrollView>
-  )
+class App extends Component {
+  render() {
+    return (
+      <>
+        <AppNavigator
+          onNavigationStateChange={handleNavigationChange}
+          uriPrefix="/app"
+        />
+      </>
+    )
+  }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -37,3 +33,5 @@ const styles = StyleSheet.create({
     color: 'black'
   }
 })
+
+export default App
